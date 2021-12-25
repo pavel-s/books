@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
+import booksReducer from './books/booksSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: { books: booksReducer },
 });
 
 export type AppDispatch = typeof store.dispatch;
