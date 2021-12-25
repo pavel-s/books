@@ -29,10 +29,15 @@ const booksSlice = createSlice({
     booksBookRemove(state, { payload }: PayloadAction<TBook['id']>) {
       state.books = state.books.filter((book) => book.id !== payload);
     },
+    booksBookEdit(state, { payload }: PayloadAction<TBook>) {
+      const editIndex = state.books.findIndex((book) => book.id === payload.id);
+      state.books[editIndex] = payload;
+    },
   },
 });
 
-export const { booksBookAdd, booksBookRemove } = booksSlice.actions;
+export const { booksBookAdd, booksBookRemove, booksBookEdit } =
+  booksSlice.actions;
 
 export const loadTestBooks = createAsyncThunk<void, void, { state: RootState }>(
   `${booksSlice.name}/loadTestBooks`,

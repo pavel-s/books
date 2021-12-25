@@ -1,10 +1,8 @@
 import { Box, Button, TextField } from '@mui/material';
 import { useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
+import { FC } from 'react';
 import * as yup from 'yup';
-import { useAppDispatch } from '../../hooks/redux';
-import { ROUTES } from '../../lib/routes';
-import { booksBookAdd } from '../../store/books/booksSlice';
+import { TBook } from '../../store/books/types';
 
 const validationSchema = yup.object({
   title: yup.string().required('Enter Book title'),
@@ -13,22 +11,27 @@ const validationSchema = yup.object({
   image: yup.string(),
 });
 
-export const Form = () => {
-  const dispatch = useAppDispatch();
-  const history = useHistory();
+export interface FormProps {
+  initialValues?: Omit<TBook, 'id'>;
+  onSubmit: (values: Omit<TBook, 'id'>) => void;
+  submitButtonTitle: string;
+}
 
+export const Form: FC<FormProps> = ({
+  initialValues,
+  onSubmit,
+  submitButtonTitle,
+}) => {
   const formik = useFormik({
     initialValues: {
       title: '',
       author: '',
       description: '',
       image: '',
+      ...initialValues,
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      dispatch(booksBookAdd(values));
-      history.push(ROUTES[0].path);
-    },
+    onSubmit,
   });
 
   return (
@@ -49,10 +52,10 @@ export const Form = () => {
           id='author'
           name='author'
           label='author'
-          value={formik.values.title}
+          value={formik.values.author}
           onChange={formik.handleChange}
-          error={formik.touched.title && Boolean(formik.errors.title)}
-          helperText={formik.touched.title && formik.errors.title}
+          error={formik.touched.author && Boolean(formik.errors.author)}
+          helperText={formik.touched.author && formik.errors.author}
         />
         <TextField
           fullWidth
@@ -79,7 +82,7 @@ export const Form = () => {
         />
 
         <Button color='primary' variant='contained' fullWidth type='submit'>
-          Add
+          {submitButtonTitle}
         </Button>
       </Box>
     </form>
