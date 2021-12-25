@@ -1,10 +1,32 @@
-import { Box } from '@mui/material';
-import BookCard, { CARD_WIDTH } from './BookCard';
-import { testBooks } from '../../lib/testBooks';
-import { useAppSelector } from '../../hooks/redux';
+import { Box, Paper, Typography, Button } from '@mui/material';
+import BookCard from './BookCard';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { Link as RouterLink } from 'react-router-dom';
+import { loadTestBooks } from '../../store/books/booksSlice';
 
 const BooksList = () => {
   const books = useAppSelector((state) => state.books.books);
+
+  const dispatch = useAppDispatch();
+
+  if (!books.length) {
+    const handleTestBooks = () => dispatch(loadTestBooks());
+    return (
+      <Paper sx={{ p: 2, mt: 2 }}>
+        <Typography>
+          There is no books here yet. You can{' '}
+          <Button variant='text' component={RouterLink} to='/add'>
+            add
+          </Button>{' '}
+          one, or try test{' '}
+          <Button variant='text' onClick={handleTestBooks}>
+            collection
+          </Button>
+          .
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <Box
@@ -26,16 +48,3 @@ const BooksList = () => {
 };
 
 export default BooksList;
-
-/*
-     sx={{
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: `repeat(auto-fit, ${CARD_WIDTH}px)`,
-        gridTemplateRows: 'auto',
-        gap: 2,
-        padding: 1,
-      }}
-
-
-*/
