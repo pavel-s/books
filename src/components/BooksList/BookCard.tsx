@@ -13,13 +13,7 @@ import {
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useAppDispatch } from '../../hooks/redux';
 import { booksBookRemove } from '../../store/books/booksSlice';
-
-interface BookCardProps {
-  id: string;
-  title: string;
-  description?: string;
-  image?: string;
-}
+import { TBook } from '../../store/books/types';
 
 const CARD_IMAGE_WIDTH = 145;
 const CARD_IMAGE_HEIGHT = 205;
@@ -27,7 +21,7 @@ const CARD_CONTENT_WIDTH = 220;
 
 export const CARD_WIDTH = CARD_IMAGE_WIDTH + CARD_CONTENT_WIDTH;
 
-const BookCard: FC<BookCardProps> = ({ id, title, description, image }) => {
+const BookCard: FC<TBook> = ({ id, title, author, description, image }) => {
   const dispatch = useAppDispatch();
 
   const handleRemoveBook = () => {
@@ -44,7 +38,12 @@ const BookCard: FC<BookCardProps> = ({ id, title, description, image }) => {
     >
       {image && (
         <Box width={CARD_IMAGE_WIDTH}>
-          <CardMedia component='img' height={CARD_IMAGE_HEIGHT} image={image} />
+          <CardMedia
+            component='img'
+            height={CARD_IMAGE_HEIGHT}
+            image={image}
+            alt={title}
+          />
         </Box>
       )}
       <Box
@@ -55,9 +54,9 @@ const BookCard: FC<BookCardProps> = ({ id, title, description, image }) => {
           justifyContent: 'space-between',
         }}
       >
-        <CardHeader title={title} />
-        <CardContent>
-          <Typography variant='body1'>{description}</Typography>
+        <CardHeader title={title} subheader={author} sx={{ pt: 1 }} />
+        <CardContent sx={{ flexGrow: 1, py: 0, overflow: 'auto' }}>
+          <Typography variant='body2'>{description}</Typography>
         </CardContent>
         <CardActions>
           <Tooltip title='remove book'>

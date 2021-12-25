@@ -8,6 +8,7 @@ import { booksBookAdd } from '../../store/books/booksSlice';
 
 const validationSchema = yup.object({
   title: yup.string().required('Enter Book title'),
+  author: yup.string().required('Enter Book author'),
   description: yup.string(),
   image: yup.string(),
 });
@@ -19,6 +20,7 @@ export const Form = () => {
   const formik = useFormik({
     initialValues: {
       title: '',
+      author: '',
       description: '',
       image: '',
     },
@@ -37,6 +39,16 @@ export const Form = () => {
           id='title'
           name='title'
           label='title'
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          error={formik.touched.title && Boolean(formik.errors.title)}
+          helperText={formik.touched.title && formik.errors.title}
+        />
+        <TextField
+          fullWidth
+          id='author'
+          name='author'
+          label='author'
           value={formik.values.title}
           onChange={formik.handleChange}
           error={formik.touched.title && Boolean(formik.errors.title)}
