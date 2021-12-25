@@ -2,8 +2,9 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { useEffect } from 'react';
 import { useAppDispatch } from './hooks/redux';
 import { theme } from './lib/theme';
-import BooksPage from './pages/Books';
 import { loadTestBooks } from './store/books/booksSlice';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ROUTES } from './lib/routes';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +16,18 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BooksPage />
+      <Router>
+        <Switch>
+          {ROUTES.map((route, idx) => (
+            <Route
+              path={route.path}
+              exact={route.exact}
+              component={route.component}
+              key={idx}
+            />
+          ))}
+        </Switch>
+      </Router>
     </ThemeProvider>
   );
 };

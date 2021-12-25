@@ -1,12 +1,6 @@
-import {
-  AppBar,
-  Box,
-  Container,
-  styled,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import { FC } from 'react';
+import { AppBar, Box, Container, styled, Toolbar } from '@mui/material';
+import { ComponentType, FC } from 'react';
+import AppBreadcrumbs from './Breadcrumbs';
 
 const MainContainer = styled(Container)(({ theme }) => ({
   maxWidth: theme.breakpoints.values.lg,
@@ -15,15 +9,18 @@ const MainContainer = styled(Container)(({ theme }) => ({
   },
 }));
 
-const MainLayout: FC = ({ children }) => {
+interface MainLayoutProps {
+  AppbarRight?: ComponentType;
+}
+
+const MainLayout: FC<MainLayoutProps> = ({ AppbarRight, children }) => {
   return (
     <>
       <AppBar position='static'>
         <MainContainer>
-          <Toolbar>
-            <Typography variant='h6' noWrap component='h1'>
-              Books List
-            </Typography>
+          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <AppBreadcrumbs />
+            {AppbarRight && <AppbarRight />}
           </Toolbar>
         </MainContainer>
       </AppBar>
