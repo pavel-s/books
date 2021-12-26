@@ -33,11 +33,24 @@ const booksSlice = createSlice({
       const editIndex = state.books.findIndex((book) => book.id === payload.id);
       state.books[editIndex] = payload;
     },
+    booksBookUpdateImage(
+      state,
+      { payload }: PayloadAction<Pick<TBook, 'id' | 'image'>>
+    ) {
+      const updateIndex = state.books.findIndex(
+        (book) => book.id === payload.id
+      );
+      state.books[updateIndex].image = payload.image;
+    },
   },
 });
 
-export const { booksBookAdd, booksBookRemove, booksBookEdit } =
-  booksSlice.actions;
+export const {
+  booksBookAdd,
+  booksBookRemove,
+  booksBookEdit,
+  booksBookUpdateImage,
+} = booksSlice.actions;
 
 export const loadTestBooks = createAsyncThunk<void, void, { state: RootState }>(
   `${booksSlice.name}/loadTestBooks`,

@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import booksReducer from './books/booksSlice';
+import imageMiddleware from './books/imageMiddleware';
 
 const rootReducer = combineReducers({
   books: booksReducer,
@@ -30,7 +31,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(imageMiddleware),
 });
 
 export const persistor = persistStore(store);
